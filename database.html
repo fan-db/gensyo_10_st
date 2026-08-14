@@ -5,199 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title id="page-title">データベース</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    /* デフォルト値。JSでconfigのthemeに応じて上書きされる */
-    --bg: #0e0908;
-    --panel: #1a1210;
-    --border: #3a221a;
-    --text: #f2e6df;
-    --text-dim: #b89a8c;
-    --fire-a: #ff7a1a;
-    --fire-b: #ff2d2d;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 24px 16px 60px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
-  }
-  h1 {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 16px;
-    background: linear-gradient(90deg, var(--fire-a), var(--fire-b));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 18px rgba(255, 90, 20, 0.35);
-  }
-  .back-link {
-    display: block;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--text-dim);
-    text-decoration: none;
-    font-size: 0.85rem;
-  }
-  .back-link:hover { color: var(--fire-a); }
-
-  .external-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-  }
-  .external-links a {
-    color: var(--text);
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 8px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  .external-links a:hover {
-    border-color: var(--fire-a);
-    color: var(--fire-a);
-  }
-
-  .panel {
-    max-width: 900px;
-    margin: 0 auto 20px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .panel-title { font-weight: bold; margin-bottom: 10px; color: var(--fire-a); }
-  .checkbox-list { display: flex; flex-wrap: wrap; gap: 10px 18px; }
-  .checkbox-list label { display: flex; align-items: center; gap: 6px; font-size: 0.95rem; cursor: pointer; }
-  .checkbox-list input[type="checkbox"] { accent-color: var(--fire-b); width: 16px; height: 16px; }
-  .select-all { border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; font-weight: bold; }
-
-  .table-header {
-    display: flex; justify-content: space-between; align-items: center;
-    max-width: 900px; margin: 0 auto 10px;
-  }
-  .toggle-btn {
-    background: linear-gradient(90deg, var(--fire-a), var(--fire-b));
-    border: none; color: #fff; padding: 8px 16px; border-radius: 8px;
-    cursor: pointer; font-size: 0.9rem;
-  }
-  .table-wrap {
-    max-width: 900px; margin: 0 auto; overflow-x: auto;
-    border: 1px solid var(--border); border-radius: 12px;
-  }
-  table { width: auto; min-width: 100%; border-collapse: collapse; background: var(--panel); }
-  th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; font-size: 0.9rem; }
-  th { color: var(--fire-a); text-align: left; background: #221512; }
-  tr:hover td { background: #241512; }
-  .hidden-col { display: none; }
-  .empty-msg { text-align: center; color: var(--text-dim); padding: 30px 0; }
-  a { color: var(--fire-a); }
+  body { font-family: 'M PLUS 1p', 'Noto Sans JP', sans-serif; }
 </style>
 </head>
-<body>
+<body class="bg-accent-50/40 text-slate-800 antialiased min-h-screen">
 
-<a href="index.html" class="back-link">← 一覧に戻る</a>
-<h1 id="title-text"></h1>
+<div class="max-w-4xl mx-auto px-4 py-6 sm:py-8">
 
-<div class="external-links" id="external-links"></div>
+  <a href="index.html" class="inline-block text-xs text-slate-400 hover:text-accent-600 mb-4 transition-colors">← 一覧に戻る</a>
 
-<div class="panel">
-  <div class="panel-title">表示する配信を選んでね</div>
-  <div class="checkbox-list">
-    <label class="select-all"><input type="checkbox" id="select-all"> すべて表示</label>
+  <header class="mb-6 pb-5 border-b border-accent-200 flex items-center gap-1" id="page-header"></header>
+
+  <div class="flex items-center gap-3 mb-6 text-xs" id="external-links"></div>
+
+  <div class="bg-white rounded-2xl border border-accent-100 p-4 mb-6 shadow-sm">
+    <div class="font-bold text-accent-600 mb-3 text-sm">表示する配信を選んでね</div>
+    <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      <label class="flex items-center gap-1.5 font-bold border-b border-accent-100 pb-2 mb-1 w-full cursor-pointer">
+        <input type="checkbox" id="select-all" class="accent-accent-500 w-4 h-4"> すべて表示
+      </label>
+    </div>
+    <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm mt-2" id="dist-checkboxes"></div>
   </div>
-  <div class="checkbox-list" id="dist-checkboxes"></div>
-</div>
 
-<div class="table-header">
-  <span style="color:var(--text-dim); font-size:0.9rem;">表示中の配信のみ一覧に出ます</span>
-  <button class="toggle-btn" id="toggle-hidden">ネタバレを表示</button>
-</div>
+  <div class="flex items-center justify-between mb-3">
+    <span class="text-xs text-slate-400">表示中の配信のみ一覧に出ます</span>
+    <button id="toggle-hidden" class="text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm" style="background: var(--accent-btn-bg);">ネタバレを表示</button>
+  </div>
 
-<div class="table-wrap">
-  <table id="char-table">
-    <thead><tr id="table-head"></tr></thead>
-    <tbody id="table-body"></tbody>
-  </table>
-</div>
+  <div class="bg-white rounded-2xl border border-accent-100 overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="text-left border-collapse" style="width:auto; min-width:100%;">
+        <thead><tr id="table-head" class="bg-accent-50/40 border-b border-accent-100 text-xs font-bold text-slate-500"></tr></thead>
+        <tbody id="table-body" class="divide-y divide-accent-50 text-sm"></tbody>
+      </table>
+    </div>
+  </div>
 
-<p class="empty-msg" id="empty-msg">配信を選ぶと表示されます</p>
+  <p class="text-center text-slate-400 text-sm py-8" id="empty-msg">配信を選ぶと表示されます</p>
+
+</div>
 
 <script src="config.js"></script>
 <script>
-let HEADERS = [];
-let ROWS = [];
-let checkedDist = new Set();
-let showHidden = false;
-let DB;
+let HEADERS = [], ROWS = [], checkedDist = new Set(), showHidden = false, DB;
 
-function applyTheme(theme) {
-  const root = document.documentElement.style;
-  root.setProperty('--bg', theme.bg);
-  root.setProperty('--panel', theme.panel);
-  root.setProperty('--border', theme.border);
-  root.setProperty('--text', theme.text);
-  root.setProperty('--text-dim', theme.textDim);
-  root.setProperty('--fire-a', theme.fireA);
-  root.setProperty('--fire-b', theme.fireB);
+function applyAccentTheme(accent) {
+  tailwind.config = {
+    theme: { extend: { colors: { accent } } }
+  };
+  document.documentElement.style.setProperty('--accent-btn-bg', `linear-gradient(90deg, ${accent[400]}, ${accent[600]})`);
+}
+
+function renderHeader(db) {
+  document.getElementById('page-header').innerHTML = `
+    <span class="text-2xl inline-block transform rotate-[-12deg] select-none w-8 text-center">${db.emoji || '📄'}</span>
+    <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-wider">${db.title}</h1>
+    ${db.badgeText ? `<span class="text-[10px] bg-accent-100 text-accent-700 px-2 py-0.5 rounded-full font-bold border border-accent-200 tracking-wide ml-2">${db.badgeText}</span>` : ''}
+  `;
 }
 
 function renderExternalLinks(db) {
   const container = document.getElementById('external-links');
   if (db.boothUrl) {
-    const a = document.createElement('a');
-    a.href = db.boothUrl;
-    a.target = '_blank';
-    a.textContent = db.boothText || 'シナリオはこちら→';
-    container.appendChild(a);
+    container.innerHTML += `<a href="${db.boothUrl}" target="_blank" class="text-accent-600 hover:text-accent-700 font-bold underline decoration-dotted underline-offset-4">${db.boothText || 'シナリオはこちら→'}</a>`;
   }
   if (db.youtubeUrl) {
-    const a = document.createElement('a');
-    a.href = db.youtubeUrl;
-    a.target = '_blank';
-    a.textContent = db.youtubeText || '配信アーカイブはこちら→';
-    container.appendChild(a);
+    container.innerHTML += `<a href="${db.youtubeUrl}" target="_blank" class="text-accent-600 hover:text-accent-700 font-bold underline decoration-dotted underline-offset-4">${db.youtubeText || '配信アーカイブはこちら→'}</a>`;
   }
 }
 
 async function init() {
   const params = new URLSearchParams(location.search);
-  const id = params.get('id');
-  DB = DATABASES[id];
+  DB = DATABASES[params.get('id')];
 
   if (!DB) {
-    document.getElementById('title-text').textContent = 'ページが見つかりません';
-    document.getElementById('empty-msg').textContent =
-      'URLのid指定が正しくありません。一覧ページからアクセスしてください。';
+    document.getElementById('empty-msg').textContent = 'URLのid指定が正しくありません。一覧ページからアクセスしてください。';
     return;
   }
 
-  applyTheme(DB.theme);
+  applyAccentTheme(DB.accent);
   document.title = DB.title;
-  document.getElementById('title-text').textContent = DB.title;
-  document.getElementById('page-title').textContent = DB.title;
+  renderHeader(DB);
   renderExternalLinks(DB);
 
   try {
     const apiUrl = new URL(GAS_URL);
     apiUrl.searchParams.append("sheet", DB.sheetName);
 
-    const res = await fetch(apiUrl.toString(), {
-      method: "GET",
-      redirect: "follow"
-    });
-
+    const res = await fetch(apiUrl.toString(), { method: "GET", redirect: "follow" });
     if (!res.ok) throw new Error(`HTTPエラー: ${res.status}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
-    
+
     HEADERS = data.headers;
     ROWS = data.rows;
     renderCheckboxes();
@@ -210,8 +115,7 @@ async function init() {
 
 function renderCheckboxes() {
   const container = document.getElementById('dist-checkboxes');
-  const seen = new Set();
-  const uniqueValues = [];
+  const seen = new Set(), uniqueValues = [];
   ROWS.forEach(row => {
     const v = row[DB.distColIndex];
     if (v && !seen.has(v)) { seen.add(v); uniqueValues.push(v); }
@@ -219,22 +123,18 @@ function renderCheckboxes() {
 
   uniqueValues.forEach(value => {
     const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.value = value;
-    input.addEventListener('change', () => {
-      if (input.checked) checkedDist.add(value); else checkedDist.delete(value);
+    label.className = "flex items-center gap-1.5 cursor-pointer";
+    label.innerHTML = `<input type="checkbox" value="${value}" class="accent-accent-500 w-4 h-4"> ${value}`;
+    label.querySelector('input').addEventListener('change', (e) => {
+      if (e.target.checked) checkedDist.add(value); else checkedDist.delete(value);
       syncSelectAll();
       renderTable();
     });
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(value));
     container.appendChild(label);
   });
 
   document.getElementById('select-all').addEventListener('change', (e) => {
-    const all = container.querySelectorAll('input[type="checkbox"]');
-    all.forEach(cb => {
+    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
       cb.checked = e.target.checked;
       if (e.target.checked) checkedDist.add(cb.value); else checkedDist.delete(cb.value);
     });
@@ -243,8 +143,7 @@ function renderCheckboxes() {
 }
 
 function syncSelectAll() {
-  const container = document.getElementById('dist-checkboxes');
-  const all = container.querySelectorAll('input[type="checkbox"]');
+  const all = document.querySelectorAll('#dist-checkboxes input[type="checkbox"]');
   document.getElementById('select-all').checked = [...all].every(cb => cb.checked);
 }
 
@@ -252,15 +151,14 @@ function renderTable() {
   const head = document.getElementById('table-head');
   const body = document.getElementById('table-body');
   const emptyMsg = document.getElementById('empty-msg');
-  head.innerHTML = '';
-  body.innerHTML = '';
+  head.innerHTML = ''; body.innerHTML = '';
 
   const hiddenStart = HEADERS.length - DB.hiddenColumnCount;
 
   HEADERS.forEach((h, i) => {
     const th = document.createElement('th');
+    th.className = "py-3 px-4 whitespace-nowrap" + (i >= hiddenStart && !showHidden ? " hidden" : "");
     th.textContent = h;
-    if (i >= hiddenStart && !showHidden) th.classList.add('hidden-col');
     head.appendChild(th);
   });
 
@@ -269,16 +167,15 @@ function renderTable() {
 
   visibleRows.forEach(row => {
     const tr = document.createElement('tr');
+    tr.className = "hover:bg-accent-50/40 transition-colors";
     row.forEach((cell, i) => {
       const td = document.createElement('td');
+      td.className = "py-3 px-4 whitespace-nowrap" + (i >= hiddenStart && !showHidden ? " hidden" : "");
       if (typeof cell === 'string' && cell.startsWith('http')) {
-        const a = document.createElement('a');
-        a.href = cell; a.textContent = 'リンク'; a.target = '_blank';
-        td.appendChild(a);
+        td.innerHTML = `<a href="${cell}" target="_blank" class="text-accent-600 font-bold underline">リンク</a>`;
       } else {
         td.textContent = cell;
       }
-      if (i >= hiddenStart && !showHidden) td.classList.add('hidden-col');
       tr.appendChild(td);
     });
     body.appendChild(tr);
