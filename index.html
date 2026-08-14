@@ -5,62 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>テルミナライン配信DB</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0e0908;
-    --panel: #1a1210;
-    --border: #3a221a;
-    --text: #f2e6df;
-    --text-dim: #b89a8c;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 40px 16px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  .db-list {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .db-card {
-    display: block;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.15s;
-  }
-  .db-card:hover {
-    border-color: var(--card-accent, var(--text-dim));
-  }
-  .db-card .accent-bar {
-    height: 4px;
-    border-radius: 4px;
-    margin-bottom: 12px;
-    background: var(--card-gradient);
-  }
-  .db-card .db-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
+  body { font-family: 'M PLUS 1p', 'Noto Sans JP', sans-serif; }
 </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
 
-<h1>テルミナライン配信DB</h1>
-<div class="db-list" id="db-list"></div>
+<div class="max-w-3xl mx-auto px-4 py-8 sm:py-10">
+
+  <header class="mb-8 pb-5 border-b border-slate-200 flex items-center gap-1">
+    <span class="text-2xl inline-block transform rotate-[-12deg] select-none w-8 text-center">📚</span>
+    <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-wider">テルミナライン配信DB</h1>
+  </header>
+
+  <div id="db-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+
+</div>
 
 <script src="config.js"></script>
 <script>
@@ -69,14 +33,31 @@
   Object.entries(DATABASES).forEach(([id, db]) => {
     const a = document.createElement('a');
     a.href = `database.html?id=${encodeURIComponent(id)}`;
-    a.className = 'db-card';
-    a.style.setProperty('--card-gradient', `linear-gradient(90deg, ${db.theme.fireA}, ${db.theme.fireB})`);
-    a.style.setProperty('--card-accent', db.theme.fireA);
+    a.className = "bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all";
 
-    a.innerHTML = `
-      <div class="accent-bar"></div>
-      <div class="db-title">${db.title}</div>
+    const bar = document.createElement('div');
+    bar.className = "h-1.5 rounded-full mb-4";
+    bar.style.background = `linear-gradient(90deg, ${db.accent[400]}, ${db.accent[600]})`;
+    a.appendChild(bar);
+
+    const titleRow = document.createElement('div');
+    titleRow.className = "flex items-center gap-2";
+    titleRow.innerHTML = `
+      <span class="text-xl">${db.emoji || '📄'}</span>
+      <span class="font-black text-slate-900 tracking-wide">${db.title}</span>
     `;
+    a.appendChild(titleRow);
+
+    if (db.badgeText) {
+      const badge = document.createElement('span');
+      badge.className = "inline-block mt-3 text-[10px] font-bold px-2 py-0.5 rounded-full border";
+      badge.style.color = db.accent[600];
+      badge.style.background = db.accent[50];
+      badge.style.borderColor = db.accent[200];
+      badge.textContent = db.badgeText;
+      a.appendChild(badge);
+    }
+
     list.appendChild(a);
   });
 </script>
