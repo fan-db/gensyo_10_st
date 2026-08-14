@@ -11,6 +11,17 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'M PLUS 1p', 'Noto Sans JP', sans-serif; }
+  .db-card {
+　  border-width: 1px;
+ 　 transition: border-color 0.15s, background-color 0.15s;
+　}
+　.db-card:hover {
+ 　 border-color: var(--card-accent);
+ 　 background-color: var(--card-bg-hover);
+　}
+　.db-card .db-title {
+ 　 color: var(--card-accent);
+　}
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
@@ -30,36 +41,38 @@
 <script>
   const list = document.getElementById('db-list');
 
-  Object.entries(DATABASES).forEach(([id, db]) => {
-    const a = document.createElement('a');
-    a.href = `database.html?id=${encodeURIComponent(id)}`;
-    a.className = "bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all";
+Object.entries(DATABASES).forEach(([id, db]) => {
+  const a = document.createElement('a');
+  a.href = `database.html?id=${encodeURIComponent(id)}`;
+  a.className = "db-card bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all";
+  a.style.setProperty('--card-accent', db.accent[600]);
+  a.style.setProperty('--card-bg-hover', db.accent[50]);
 
-    const bar = document.createElement('div');
-    bar.className = "h-1.5 rounded-full mb-4";
-    bar.style.background = `linear-gradient(90deg, ${db.accent[400]}, ${db.accent[600]})`;
-    a.appendChild(bar);
+  const bar = document.createElement('div');
+  bar.className = "h-1.5 rounded-full mb-4";
+  bar.style.background = `linear-gradient(90deg, ${db.accent[400]}, ${db.accent[600]})`;
+  a.appendChild(bar);
 
-    const titleRow = document.createElement('div');
-    titleRow.className = "flex items-center gap-2";
-    titleRow.innerHTML = `
-      <span class="text-xl">${db.emoji || '📄'}</span>
-      <span class="font-black text-slate-900 tracking-wide">${db.title}</span>
-    `;
-    a.appendChild(titleRow);
+  const titleRow = document.createElement('div');
+  titleRow.className = "flex items-center gap-2";
+  titleRow.innerHTML = `
+    <span class="text-xl">${db.emoji || '📄'}</span>
+    <span class="db-title font-black tracking-wide">${db.title}</span>
+  `;
+  a.appendChild(titleRow);
 
-    if (db.badgeText) {
-      const badge = document.createElement('span');
-      badge.className = "inline-block mt-3 text-[10px] font-bold px-2 py-0.5 rounded-full border";
-      badge.style.color = db.accent[600];
-      badge.style.background = db.accent[50];
-      badge.style.borderColor = db.accent[200];
-      badge.textContent = db.badgeText;
-      a.appendChild(badge);
-    }
+  if (db.badgeText) {
+    const badge = document.createElement('span');
+    badge.className = "inline-block mt-3 text-[10px] font-bold px-2 py-0.5 rounded-full border";
+    badge.style.color = db.accent[600];
+    badge.style.background = db.accent[50];
+    badge.style.borderColor = db.accent[200];
+    badge.textContent = db.badgeText;
+    a.appendChild(badge);
+  }
 
-    list.appendChild(a);
-  });
+  list.appendChild(a);
+});
 </script>
 
 </body>
