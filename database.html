@@ -186,10 +186,18 @@ async function init() {
   renderExternalLinks(DB);
 
   try {
-    const res = await fetch(`${GAS_URL}?sheet=${encodeURIComponent(DB.sheetName)}`);
+    const apiUrl = new URL(GAS_URL);
+    apiUrl.searchParams.append("sheet", DB.sheetName);
+
+    const res = await fetch(apiUrl.toString(), {
+      method: "GET",
+      redirect: "follow"
+    });
+
     if (!res.ok) throw new Error(`HTTPエラー: ${res.status}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
+    
     HEADERS = data.headers;
     ROWS = data.rows;
     renderCheckboxes();
