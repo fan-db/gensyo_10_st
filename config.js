@@ -4,10 +4,11 @@
 const DATABASES = {
 
   "lost": {
-    title: "🔥 [現象10_st]配信DB 🔥",       // ページタイトル
-    sheetName: "現象10_st",                  // 対応するスプレッドシートのシート名
-    distColIndex: 0,                       // 「配信」列の位置（左から1列目=0）
-    hiddenColumnCount: 9,                  // 右側から隠す列数
+    title: "[現象10_st]配信DB",
+    emoji: "🔥",
+    sheetName: "現象10_st",
+    distColIndex: 0,　// 「配信」列の位置（左から1列目=0）
+    hiddenColumnCount: 9,　// 右側から隠す列数
 
     boothUrl: "https://terminuline.booth.pm/items/8657666",                          // BOOTHのURL（空欄なら非表示）
     boothText: "🔗シナリオ",
