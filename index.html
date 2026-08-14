@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 検索エンジンにインデックスさせない設定 -->
 <meta name="robots" content="noindex, nofollow">
-<title>現象10_st 配信データ</title>
+<title>現象10_st 配信DB</title>
 <style>
   :root {
     --bg: #0e0908;
@@ -24,7 +24,7 @@
     padding: 24px 16px 60px;
     background: var(--bg);
     color: var(--text);
-    font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
   }
 
   h1 {
@@ -38,6 +38,29 @@
     text-shadow: 0 0 18px rgba(255, 90, 20, 0.35);
   }
 
+  .external-links {
+  　display: flex;
+  　justify-content: center;
+  　gap: 24px;
+  　margin-bottom: 24px;
+　}
+
+　.external-links a {
+  　color: var(--text);
+  　background: var(--panel);
+  　border: 1px solid var(--border);
+  　padding: 8px 18px;
+  　border-radius: 8px;
+  　text-decoration: none;
+  　font-size: 0.95rem;
+  　transition: border-color 0.15s;
+　}
+
+　.external-links a:hover {
+  　border-color: var(--fire-a);
+  　color: var(--fire-a);
+　}
+  
   .panel {
     max-width: 900px;
     margin: 0 auto 20px;
@@ -145,7 +168,12 @@
 </head>
 <body>
 
-<h1>🔥 現象10_st 配信データ 🔥</h1>
+<h1>🔥 [現象10_st] 配信DB 🔥</h1>
+
+<div class="external-links">
+  <a href="https://terminuline.booth.pm/items/8657666" target="_blank">🛒 BOOTH</a>
+  <a href="https://www.youtube.com/playlist?list=PLQsdy2E0FdSY" target="_blank">▶ YouTube</a>
+</div>
 
 <div class="panel">
   <div class="panel-title">表示する配信を選んでね</div>
@@ -159,7 +187,7 @@
 
 <div class="table-header">
   <span style="color:var(--text-dim); font-size:0.9rem;">表示中のキャラのみ一覧に出ます</span>
-  <button class="toggle-btn" id="toggle-hidden">ネタバレ有を表示</button>
+  <button class="toggle-btn" id="toggle-hidden">ネタバレを表示</button>
 </div>
 
 <div class="table-wrap">
@@ -295,7 +323,7 @@ function renderTable() {
 
 document.getElementById('toggle-hidden').addEventListener('click', (e) => {
   showHidden = !showHidden;
-  e.target.textContent = showHidden ? '隠し項目を隠す' : '隠し項目を表示';
+  e.target.textContent = showHidden ? 'ネタバレを隠す' : 'ネタバレを表示';
   renderTable();
 });
 
