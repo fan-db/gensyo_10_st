@@ -11,9 +11,9 @@ const DATABASES = {
     hiddenColumnCount: 7,                  // 右側から隠す列数
 
     boothUrl: "https://terminuline.booth.pm/items/8657666",                          // BOOTHのURL（空欄なら非表示）
-    boothText: "シナリオはこちら→",
+    boothText: "🔗シナリオ",
     youtubeUrl: "https://www.youtube.com/playlist?list=PLQsdy2E0FdSY",                        // 再生リストのURL（空欄なら非表示）
-    youtubeText: "配信アーカイブはこちら→",
+    youtubeText: "🔗再生リスト",
 
     theme: {
       bg: "#0e0908",
@@ -32,4 +32,4 @@ const DATABASES = {
 };
 
 // ==== GASのWebアプリURL（全データベース共通） ====
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyugd9TpNa70zFL_uZVJr9A3z56kki9gdDjwwdyyVUW/dev";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyCXo2vyOw04W-CkcaT-3vhZQ6c-FrKvaZ62MvrxVo1CrNRkwZAHEELv8FGzUcGrq-Rxw/exec";
