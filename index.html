@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 検索エンジンにインデックスさせない設定 -->
 <meta name="robots" content="noindex, nofollow">
-<title>現象10_st 配信DB</title>
+<title>テルミナライン配信DB</title>
 <style>
   :root {
     --bg: #0e0908;
@@ -13,321 +12,73 @@
     --border: #3a221a;
     --text: #f2e6df;
     --text-dim: #b89a8c;
-    --fire-a: #ff7a1a;
-    --fire-b: #ff2d2d;
   }
-
   * { box-sizing: border-box; }
-
   body {
     margin: 0;
-    padding: 24px 16px 60px;
+    padding: 40px 16px;
     background: var(--bg);
     color: var(--text);
-    font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
   }
-
   h1 {
     text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 24px;
-    background: linear-gradient(90deg, var(--fire-a), var(--fire-b));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 18px rgba(255, 90, 20, 0.35);
+    margin-bottom: 32px;
   }
-
-  .external-links {
-  　display: flex;
-  　justify-content: center;
-  　gap: 24px;
-  　margin-bottom: 24px;
-　}
-
-　.external-links a {
-  　color: var(--text);
-  　background: var(--panel);
-  　border: 1px solid var(--border);
-  　padding: 8px 18px;
-  　border-radius: 8px;
-  　text-decoration: none;
-  　font-size: 0.95rem;
-  　transition: border-color 0.15s;
-　}
-
-　.external-links a:hover {
-  　border-color: var(--fire-a);
-  　color: var(--fire-a);
-　}
-  
-  .panel {
-    max-width: 900px;
-    margin: 0 auto 20px;
+  .db-list {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .db-card {
+    display: block;
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 16px 18px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s;
   }
-
-  .panel-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--fire-a);
+  .db-card:hover {
+    border-color: var(--card-accent, var(--text-dim));
   }
-
-  .checkbox-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 18px;
+  .db-card .accent-bar {
+    height: 4px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    background: var(--card-gradient);
   }
-
-  .checkbox-list label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.95rem;
-    cursor: pointer;
-  }
-
-  .checkbox-list input[type="checkbox"] {
-    accent-color: var(--fire-b);
-    width: 16px;
-    height: 16px;
-  }
-
-  .select-all {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+  .db-card .db-title {
+    font-size: 1.1rem;
     font-weight: bold;
   }
-
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 900px;
-    margin: 0 auto 10px;
-  }
-
-  .toggle-btn {
-    background: linear-gradient(90deg, var(--fire-a), var(--fire-b));
-    border: none;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-
-  .table-wrap {
-    max-width: 900px;
-    margin: 0 auto;
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-  }
-
-  table {
-  width: auto;
-  min-width: 100%;
-  border-collapse: collapse;
-  background: var(--panel);
-}
-
-  th, td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    font-size: 0.9rem;
-  }
-
-  th {
-    color: var(--fire-a);
-    text-align: left;
-    background: #221512;
-  }
-
-  tr:hover td {
-    background: #241512;
-  }
-
-  .hidden-col {
-    display: none;
-  }
-
-  .empty-msg {
-    text-align: center;
-    color: var(--text-dim);
-    padding: 30px 0;
-  }
-
-  a { color: var(--fire-a); }
 </style>
 </head>
 <body>
 
-<h1>🔥 [現象10_st] 配信DB 🔥</h1>
+<h1>テルミナライン配信DB</h1>
+<div class="db-list" id="db-list"></div>
 
-<div class="external-links">
-  <a href="https://terminuline.booth.pm/items/8657666" target="_blank">🛒 BOOTH</a>
-  <a href="https://www.youtube.com/playlist?list=PLQsdy2E0FdSY" target="_blank">▶ YouTube</a>
-</div>
-
-<div class="panel">
-  <div class="panel-title">表示する配信を選んでね</div>
-  <div class="checkbox-list">
-    <label class="select-all">
-      <input type="checkbox" id="select-all"> すべて表示
-    </label>
-  </div>
-  <div class="checkbox-list" id="dist-checkboxes"></div>
-</div>
-
-<div class="table-header">
-  <span style="color:var(--text-dim); font-size:0.9rem;">表示中のキャラのみ一覧に出ます</span>
-  <button class="toggle-btn" id="toggle-hidden">ネタバレを表示</button>
-</div>
-
-<div class="table-wrap">
-  <table id="char-table">
-    <thead><tr id="table-head"></tr></thead>
-    <tbody id="table-body"></tbody>
-  </table>
-</div>
-
-<p class="empty-msg" id="empty-msg">配信を選ぶとキャラが表示されます</p>
-
+<script src="config.js"></script>
 <script>
-// ==== 設定項目 ====
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyCXo2vyOw04W-CkcaT-3vhZQ6c-FrKvaZ62MvrxVo1CrNRkwZAHEELv8FGzUcGrq-Rxw/exec"; // 例: https://script.google.com/macros/s/xxxx/exec
-const DIST_COL_INDEX = 0;      // 「配信」列の位置(左から1列目 = index 0)
-const HIDDEN_COLUMN_COUNT = 9; // 右側から何列を初期非表示にするか
+  const list = document.getElementById('db-list');
 
-let HEADERS = [];
-let ROWS = [];
-let checkedDist = new Set();
-let showHidden = false;
+  Object.entries(DATABASES).forEach(([id, db]) => {
+    const a = document.createElement('a');
+    a.href = `database.html?id=${encodeURIComponent(id)}`;
+    a.className = 'db-card';
+    a.style.setProperty('--card-gradient', `linear-gradient(90deg, ${db.theme.fireA}, ${db.theme.fireB})`);
+    a.style.setProperty('--card-accent', db.theme.fireA);
 
-async function init() {
-  try {
-    const res = await fetch(GAS_URL);
-    if (!res.ok) throw new Error(`HTTPエラー: ${res.status}`);
-    const data = await res.json();
-    HEADERS = data.headers;
-    ROWS = data.rows;
-    renderCheckboxes();
-    renderTable();
-  } catch (err) {
-    document.getElementById('empty-msg').textContent =
-      "データの取得に失敗しました: " + err.message;
-    console.error(err);
-  }
-}
-
-// 「配信」列のユニークな値からチェックボックスを生成
-function renderCheckboxes() {
-  const container = document.getElementById('dist-checkboxes');
-  const seen = new Set();
-  const uniqueValues = [];
-  ROWS.forEach(row => {
-    const v = row[DIST_COL_INDEX];
-    if (v && !seen.has(v)) {
-      seen.add(v);
-      uniqueValues.push(v);
-    }
+    a.innerHTML = `
+      <div class="accent-bar"></div>
+      <div class="db-title">${db.title}</div>
+    `;
+    list.appendChild(a);
   });
-
-  uniqueValues.forEach(value => {
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.value = value;
-    input.addEventListener('change', () => {
-      if (input.checked) checkedDist.add(value);
-      else checkedDist.delete(value);
-      syncSelectAll();
-      renderTable();
-    });
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(value));
-    container.appendChild(label);
-  });
-
-  document.getElementById('select-all').addEventListener('change', (e) => {
-    const all = container.querySelectorAll('input[type="checkbox"]');
-    all.forEach(cb => {
-      cb.checked = e.target.checked;
-      if (e.target.checked) checkedDist.add(cb.value);
-      else checkedDist.delete(cb.value);
-    });
-    renderTable();
-  });
-}
-
-function syncSelectAll() {
-  const container = document.getElementById('dist-checkboxes');
-  const all = container.querySelectorAll('input[type="checkbox"]');
-  const allChecked = [...all].every(cb => cb.checked);
-  document.getElementById('select-all').checked = allChecked;
-}
-
-// 表の描画(チェック状況・隠し列トグル状態を反映)
-function renderTable() {
-  const head = document.getElementById('table-head');
-  const body = document.getElementById('table-body');
-  const emptyMsg = document.getElementById('empty-msg');
-  head.innerHTML = '';
-  body.innerHTML = '';
-
-  const hiddenStart = HEADERS.length - HIDDEN_COLUMN_COUNT;
-
-  // ヘッダー行
-  HEADERS.forEach((h, i) => {
-    const th = document.createElement('th');
-    th.textContent = h;
-    if (i >= hiddenStart && !showHidden) th.classList.add('hidden-col');
-    head.appendChild(th);
-  });
-
-  // 表示対象の行を絞り込み
-  const visibleRows = ROWS.filter(row => checkedDist.has(row[DIST_COL_INDEX]));
-
-  if (visibleRows.length === 0) {
-    emptyMsg.style.display = 'block';
-  } else {
-    emptyMsg.style.display = 'none';
-  }
-
-  visibleRows.forEach(row => {
-    const tr = document.createElement('tr');
-    row.forEach((cell, i) => {
-      const td = document.createElement('td');
-      // URLっぽい値は自動でリンクにする(配信リンク列など)
-      if (typeof cell === 'string' && cell.startsWith('http')) {
-        const a = document.createElement('a');
-        a.href = cell;
-        a.textContent = 'リンク';
-        a.target = '_blank';
-        td.appendChild(a);
-      } else {
-        td.textContent = cell;
-      }
-      if (i >= hiddenStart && !showHidden) td.classList.add('hidden-col');
-      tr.appendChild(td);
-    });
-    body.appendChild(tr);
-  });
-}
-
-document.getElementById('toggle-hidden').addEventListener('click', (e) => {
-  showHidden = !showHidden;
-  e.target.textContent = showHidden ? 'ネタバレを隠す' : 'ネタバレを表示';
-  renderTable();
-});
-
-init();
 </script>
 
 </body>
