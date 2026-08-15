@@ -6,32 +6,23 @@
 <meta name="robots" content="noindex, nofollow">
 <title>テルミナライン配信DB</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'M PLUS 1p', 'Noto Sans JP', sans-serif; }
-  .db-card {
-　  border-width: 1px;
- 　 transition: border-color 0.15s, background-color 0.15s;
-　}
-　.db-card:hover {
- 　 border-color: var(--card-accent);
- 　 background-color: var(--card-bg-hover);
-　}
-　.db-card .db-title {
- 　 color: var(--card-accent);
-　}
+  body { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; }
+  .db-card { transition: border-color 0.15s, background-color 0.15s, transform 0.15s; }
+  .db-card:hover { border-color: var(--card-accent); background-color: var(--card-bg-hover); transform: translateY(-2px); }
+  .db-card .db-title { color: var(--card-accent); }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
 
 <div class="max-w-3xl mx-auto px-4 py-8 sm:py-10">
 
-  <header class="mb-8 pb-5 border-b border-slate-200 flex items-center gap-1">
+  <header class="mb-4 pb-5 border-b border-slate-200 flex items-center gap-1">
     <span class="text-2xl inline-block transform rotate-[-12deg] select-none w-8 text-center">📚</span>
     <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-wider">テルミナライン配信DB</h1>
   </header>
+
+  <div class="flex items-center gap-4 mb-8 text-xs" id="site-links"></div>
 
   <div id="db-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
 
@@ -39,40 +30,49 @@
 
 <script src="config.js"></script>
 <script>
-  const list = document.getElementById('db-list');
-
-Object.entries(DATABASES).forEach(([id, db]) => {
-  const a = document.createElement('a');
-  a.href = `database.html?id=${encodeURIComponent(id)}`;
-  a.className = "db-card bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all";
-  a.style.setProperty('--card-accent', db.accent[600]);
-  a.style.setProperty('--card-bg-hover', db.accent[50]);
-
-  const bar = document.createElement('div');
-  bar.className = "h-1.5 rounded-full mb-4";
-  bar.style.background = `linear-gradient(90deg, ${db.accent[400]}, ${db.accent[600]})`;
-  a.appendChild(bar);
-
-  const titleRow = document.createElement('div');
-  titleRow.className = "flex items-center gap-2";
-  titleRow.innerHTML = `
-    <span class="text-xl">${db.emoji || '📄'}</span>
-    <span class="db-title font-black tracking-wide">${db.title}</span>
-  `;
-  a.appendChild(titleRow);
-
-  if (db.badgeText) {
-    const badge = document.createElement('span');
-    badge.className = "inline-block mt-3 text-[10px] font-bold px-2 py-0.5 rounded-full border";
-    badge.style.color = db.accent[600];
-    badge.style.background = db.accent[50];
-    badge.style.borderColor = db.accent[200];
-    badge.textContent = db.badgeText;
-    a.appendChild(badge);
+  // サイト全体共通リンク(BOOTH/YouTube)
+  const siteLinks = document.getElementById('site-links');
+  if (SITE_LINKS.boothUrl) {
+    siteLinks.innerHTML += `<a href="${SITE_LINKS.boothUrl}" target="_blank" class="text-slate-500 hover:text-slate-800 font-bold underline decoration-dotted underline-offset-4">${SITE_LINKS.boothText}</a>`;
+  }
+  if (SITE_LINKS.youtubeUrl) {
+    siteLinks.innerHTML += `<a href="${SITE_LINKS.youtubeUrl}" target="_blank" class="text-slate-500 hover:text-slate-800 font-bold underline decoration-dotted underline-offset-4">${SITE_LINKS.youtubeText}</a>`;
   }
 
-  list.appendChild(a);
-});
+  const list = document.getElementById('db-list');
+
+  Object.entries(DATABASES).forEach(([id, db]) => {
+    const a = document.createElement('a');
+    a.href = `database.html?id=${encodeURIComponent(id)}`;
+    a.className = "db-card bg-white rounded-2xl border border-slate-100 p-5 shadow-sm";
+    a.style.setProperty('--card-accent', db.accent[600]);
+    a.style.setProperty('--card-bg-hover', db.accent[50]);
+
+    const bar = document.createElement('div');
+    bar.className = "h-1.5 rounded-full mb-4";
+    bar.style.background = `linear-gradient(90deg, ${db.accent[400]}, ${db.accent[600]})`;
+    a.appendChild(bar);
+
+    const titleRow = document.createElement('div');
+    titleRow.className = "flex items-center gap-2";
+    titleRow.innerHTML = `
+      <span class="text-xl">${db.emoji || '📄'}</span>
+      <span class="db-title font-black tracking-wide">${db.title}</span>
+    `;
+    a.appendChild(titleRow);
+
+    if (db.badgeText) {
+      const badge = document.createElement('span');
+      badge.className = "inline-block mt-3 text-[10px] font-bold px-2 py-0.5 rounded-full border";
+      badge.style.color = db.accent[600];
+      badge.style.background = db.accent[50];
+      badge.style.borderColor = db.accent[200];
+      badge.textContent = db.badgeText;
+      a.appendChild(badge);
+    }
+
+    list.appendChild(a);
+  });
 </script>
 
 </body>
