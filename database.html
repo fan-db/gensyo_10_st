@@ -6,96 +6,113 @@
 <meta name="robots" content="noindex, nofollow">
 <title id="page-title">データベース</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    /* ダーク基調は固定。ここは全シナリオ共通 */
-    --bg: #0e0908;
-    --panel: #1a1210;
-    --border: #3a221a;
-    --text: #f2e6df;
-    --text-dim: #b89a8c;
-  }
   body {
     font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
-    background: var(--bg);
-    color: var(--text);
   }
-  h1.fire-title {
-    background: linear-gradient(90deg, var(--fire-a), var(--fire-b));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 18px rgba(255, 90, 20, 0.25);
-  }
-  tr:hover td { background: #241512 !important; }
 </style>
 </head>
-<body class="antialiased min-h-screen">
+<body class="antialiased min-h-screen" style="background: var(--bg); color: var(--text);">
 
-<div class="max-w-4xl mx-auto px-4 py-6 sm:py-8">
+<div class="max-w-5xl mx-auto px-4 py-6 sm:py-8">
 
-  <a href="index.html" class="inline-block text-xs text-[var(--text-dim)] hover:text-accent-400 mb-4 transition-colors">← 一覧に戻る</a>
+  <!-- パンくず -->
+  <div class="text-xs mb-5 flex items-center gap-1.5" id="breadcrumb"></div>
 
-  <header class="mb-6 pb-5 border-b border-[var(--border)]" id="page-header"></header>
+  <div class="flex flex-col sm:flex-row gap-6">
 
-  <div class="flex items-center gap-3 mb-6 text-xs" id="external-links"></div>
+    <!-- サイドバー(スマホでは横スクロールタブに) -->
+    <nav id="sidebar" class="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-visible pb-2 sm:pb-0 sm:w-52 sm:shrink-0"></nav>
 
-  <div class="bg-[var(--panel)] border border-[var(--border)] rounded-2xl p-4 mb-6">
-    <div class="font-bold text-accent-400 mb-3 text-sm">表示する配信を選んでね</div>
-    <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-      <label class="flex items-center gap-1.5 font-bold border-b border-[var(--border)] pb-2 mb-1 w-full cursor-pointer text-[var(--text)]">
-        <input type="checkbox" id="select-all" class="accent-accent-500 w-4 h-4"> すべて表示
-      </label>
+    <!-- メインコンテンツ -->
+    <div class="flex-1 min-w-0">
+
+      <header class="mb-5 pb-4 border-b" style="border-color: var(--border);" id="page-header"></header>
+
+      <div class="flex items-center gap-3 mb-6 text-xs flex-wrap" id="external-links"></div>
+
+      <div class="rounded-2xl border p-4 mb-6" style="background: var(--panel); border-color: var(--border);">
+        <div class="font-bold mb-3 text-sm text-accent-400">表示する配信を選んでね</div>
+        <div class="flex flex-wrap gap-2 items-center" id="checkbox-tags"></div>
+      </div>
+
+      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <span class="text-xs" style="color: var(--text-dim);">表示中の配信のみ一覧に出ます</span>
+        <button id="toggle-hidden" class="bg-gradient-to-r from-accent-400 to-accent-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm">ネタバレを表示</button>
+      </div>
+
+      <div class="rounded-2xl border overflow-hidden" style="background: var(--panel); border-color: var(--border);">
+        <div class="overflow-x-auto">
+          <table class="text-left border-collapse" style="width:auto; min-width:100%;">
+            <thead><tr id="table-head" class="border-b text-xs font-bold text-accent-400" style="border-color: var(--border);"></tr></thead>
+            <tbody id="table-body" class="text-sm" style="color: var(--text);"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="text-center text-sm py-8" style="color: var(--text-dim);" id="empty-msg">配信を選ぶと表示されます</p>
+
     </div>
-    <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm mt-2 text-[var(--text)]" id="dist-checkboxes"></div>
   </div>
-
-  <div class="flex items-center justify-between mb-3">
-    <span class="text-xs text-[var(--text-dim)]">表示中の配信のみ一覧に出ます</span>
-    <button id="toggle-hidden" class="text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm" style="background: var(--accent-btn-bg);">ネタバレを表示</button>
-  </div>
-
-  <div class="bg-[var(--panel)] border border-[var(--border)] rounded-2xl overflow-hidden">
-    <div class="overflow-x-auto">
-      <table class="text-left border-collapse" style="width:auto; min-width:100%;">
-        <thead><tr id="table-head" class="border-b border-[var(--border)] text-xs font-bold text-accent-400"></tr></thead>
-        <tbody id="table-body" class="divide-y divide-[var(--border)] text-sm text-[var(--text)]"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <p class="text-center text-[var(--text-dim)] text-sm py-8" id="empty-msg">配信を選ぶと表示されます</p>
-
 </div>
 
 <script src="config.js"></script>
 <script>
-let HEADERS = [], ROWS = [], checkedDist = new Set(), showHidden = false, DB;
+let HEADERS = [], ROWS = [], checkedDist = new Set(), showHidden = false, DB, CURRENT_ID;
 
+// ページ全体の背景・パネル色などをCSS変数として反映
+function applyTheme(db) {
+  const root = document.documentElement.style;
+  root.setProperty('--bg', db.bg);
+  root.setProperty('--panel', db.panel);
+  root.setProperty('--border', db.border);
+  root.setProperty('--text', db.text);
+  root.setProperty('--text-dim', db.textDim);
+}
+
+// accentカラーをTailwindのユーティリティクラス(accent-400など)として使えるようにする
 function applyAccentTheme(accent) {
-  tailwind.config = {
-    theme: { extend: { colors: { accent } } }
-  };
-  document.documentElement.style.setProperty('--fire-a', accent[400]);
-  document.documentElement.style.setProperty('--fire-b', accent[600]);
-  document.documentElement.style.setProperty('--accent-btn-bg', `linear-gradient(90deg, ${accent[400]}, ${accent[600]})`);
+  tailwind.config = { theme: { extend: { colors: { accent } } } };
+}
+
+function renderBreadcrumb(db) {
+  document.getElementById('breadcrumb').innerHTML = `
+    <a href="index.html" class="transition-colors hover:text-accent-400" style="color: var(--text-dim);">🏠 トップ</a>
+    <span style="color: var(--text-dim);">›</span>
+    <span class="font-bold text-accent-400">${db.title}</span>
+  `;
+}
+
+// 全シナリオを使ってサイドバー(スマホでは横タブ)を生成
+// 各項目は「そのシナリオ自身のaccent色」で表示するため、インラインstyleで指定
+function renderSidebar() {
+  const nav = document.getElementById('sidebar');
+  Object.entries(DATABASES).forEach(([sid, sdb]) => {
+    const isCurrent = sid === CURRENT_ID;
+    const item = document.createElement('a');
+    item.href = `database.html?id=${encodeURIComponent(sid)}`;
+    item.className = "flex items-center gap-2 shrink-0 px-3 py-2 rounded-xl border-2 text-xs font-bold whitespace-nowrap transition-all";
+    item.style.borderColor = isCurrent ? sdb.accent[500] : sdb.accent[200];
+    item.style.background = isCurrent ? sdb.accent[50] : 'transparent';
+    item.style.color = isCurrent ? sdb.accent[700] : sdb.accent[500];
+    item.innerHTML = `<span>${sdb.emoji || '📄'}</span><span>${sdb.title}</span>`;
+    nav.appendChild(item);
+  });
 }
 
 function renderHeader(db) {
   document.getElementById('page-header').innerHTML = `
-    <div class="flex items-center gap-1">
-      <span class="text-2xl inline-block transform rotate-[-12deg] select-none w-8 text-center">${db.emoji || '🔥'}</span>
-      <h1 class="fire-title text-xl sm:text-2xl font-black tracking-wider">${db.title}</h1>
-      ${db.badgeText ? `<span class="text-[10px] bg-accent-100/10 text-accent-400 px-2 py-0.5 rounded-full font-bold border border-accent-700/40 tracking-wide ml-2">${db.badgeText}</span>` : ''}
+    <div class="flex items-center gap-1 flex-wrap">
+      <span class="text-2xl inline-block transform rotate-[-12deg] select-none w-8 text-center">${db.emoji || '📄'}</span>
+      <h1 class="bg-gradient-to-r from-accent-400 to-accent-600 bg-clip-text text-transparent font-black tracking-wider text-xl sm:text-2xl">${db.title}</h1>
+      ${db.badgeText ? `<span class="text-[10px] px-2 py-0.5 rounded-full font-bold border tracking-wide ml-2 bg-accent-500/10 text-accent-500 border-accent-500/40">${db.badgeText}</span>` : ''}
     </div>
   `;
 }
 
 function renderExternalLinks(db) {
   const container = document.getElementById('external-links');
+  container.innerHTML = '';
   if (db.boothUrl) {
     container.innerHTML += `<a href="${db.boothUrl}" target="_blank" class="text-accent-400 hover:text-accent-300 font-bold underline decoration-dotted underline-offset-4">${db.boothText || 'シナリオはこちら→'}</a>`;
   }
@@ -106,22 +123,25 @@ function renderExternalLinks(db) {
 
 async function init() {
   const params = new URLSearchParams(location.search);
-  DB = DATABASES[params.get('id')];
+  CURRENT_ID = params.get('id');
+  DB = DATABASES[CURRENT_ID];
 
   if (!DB) {
     document.getElementById('empty-msg').textContent = 'URLのid指定が正しくありません。一覧ページからアクセスしてください。';
     return;
   }
 
+  applyTheme(DB);
   applyAccentTheme(DB.accent);
   document.title = DB.title;
+  renderBreadcrumb(DB);
+  renderSidebar();
   renderHeader(DB);
   renderExternalLinks(DB);
 
   try {
     const apiUrl = new URL(GAS_URL);
     apiUrl.searchParams.append("sheet", DB.sheetName);
-
     const res = await fetch(apiUrl.toString(), { method: "GET", redirect: "follow" });
     if (!res.ok) throw new Error(`HTTPエラー: ${res.status}`);
     const data = await res.json();
@@ -137,38 +157,83 @@ async function init() {
   }
 }
 
+// チェックボックスを「四角いタグボタン」風に描画
+// input自体は非表示にし、隣接するspanをpeer-checkedで見た目切り替え(素のCSSの:checked連動、JSでのクラス管理不要)
 function renderCheckboxes() {
-  const container = document.getElementById('dist-checkboxes');
+  const container = document.getElementById('checkbox-tags');
+  container.innerHTML = '';
+
+  // 「すべて表示」タグ
+  const allLabel = document.createElement('label');
+  allLabel.className = "cursor-pointer select-none";
+  allLabel.innerHTML = `
+    <input type="checkbox" id="select-all" class="peer hidden">
+    <span class="inline-block px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-colors peer-checked:text-white"
+          style="border-color: var(--border); color: var(--text-dim);">すべて表示</span>
+  `;
+  container.appendChild(allLabel);
+  // peer-checkedの背景色はTailwindのarbitrary値でaccentを直接指定できないため、JSで都度スタイル反映
+  const allSpan = allLabel.querySelector('span');
+  const allInput = allLabel.querySelector('input');
+
   const seen = new Set(), uniqueValues = [];
   ROWS.forEach(row => {
     const v = row[DB.distColIndex];
     if (v && !seen.has(v)) { seen.add(v); uniqueValues.push(v); }
   });
 
+  const tagEls = [];
+
   uniqueValues.forEach(value => {
     const label = document.createElement('label');
-    label.className = "flex items-center gap-1.5 cursor-pointer";
-    label.innerHTML = `<input type="checkbox" value="${value}" class="accent-accent-500 w-4 h-4"> ${value}`;
-    label.querySelector('input').addEventListener('change', (e) => {
-      if (e.target.checked) checkedDist.add(value); else checkedDist.delete(value);
-      syncSelectAll();
+    label.className = "cursor-pointer select-none";
+    label.innerHTML = `
+      <input type="checkbox" value="${value}" class="peer hidden">
+      <span class="inline-block px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-colors"
+            style="border-color: var(--border); color: var(--text-dim);">${value}</span>
+    `;
+    const input = label.querySelector('input');
+    const span = label.querySelector('span');
+
+    input.addEventListener('change', () => {
+      updateTagStyle(span, input.checked);
+      if (input.checked) checkedDist.add(value); else checkedDist.delete(value);
+      syncSelectAll(allInput, allSpan, tagEls);
       renderTable();
     });
+
+    tagEls.push({ input, span });
     container.appendChild(label);
   });
 
-  document.getElementById('select-all').addEventListener('change', (e) => {
-    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.checked = e.target.checked;
-      if (e.target.checked) checkedDist.add(cb.value); else checkedDist.delete(cb.value);
+  allInput.addEventListener('change', (e) => {
+    tagEls.forEach(({ input, span }) => {
+      input.checked = e.target.checked;
+      updateTagStyle(span, input.checked);
+      if (input.checked) checkedDist.add(input.value); else checkedDist.delete(input.value);
     });
+    updateTagStyle(allSpan, e.target.checked);
     renderTable();
   });
 }
 
-function syncSelectAll() {
-  const all = document.querySelectorAll('#dist-checkboxes input[type="checkbox"]');
-  document.getElementById('select-all').checked = [...all].every(cb => cb.checked);
+// チェック状態に応じてタグの色を切り替え(accent色で塗りつぶし/枠線のみ)
+function updateTagStyle(span, checked) {
+  if (checked) {
+    span.style.background = DB.accent[600];
+    span.style.borderColor = DB.accent[600];
+    span.style.color = '#fff';
+  } else {
+    span.style.background = 'transparent';
+    span.style.borderColor = DB.border;
+    span.style.color = DB.textDim;
+  }
+}
+
+function syncSelectAll(allInput, allSpan, tagEls) {
+  const allChecked = tagEls.every(({ input }) => input.checked);
+  allInput.checked = allChecked;
+  updateTagStyle(allSpan, allChecked);
 }
 
 function renderTable() {
@@ -191,6 +256,8 @@ function renderTable() {
 
   visibleRows.forEach(row => {
     const tr = document.createElement('tr');
+    tr.className = "border-b";
+    tr.style.borderColor = DB.border;
     row.forEach((cell, i) => {
       const td = document.createElement('td');
       td.className = "py-3 px-4 whitespace-nowrap" + (i >= hiddenStart && !showHidden ? " hidden" : "");
